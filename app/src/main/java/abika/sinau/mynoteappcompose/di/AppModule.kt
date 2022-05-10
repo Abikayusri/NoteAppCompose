@@ -3,7 +3,7 @@ package abika.sinau.mynoteappcompose.di
 import abika.sinau.mynoteappcompose.feature_note.data.data_source.NoteDatabase
 import abika.sinau.mynoteappcompose.feature_note.data.repository.NoteRepositoryImpl
 import abika.sinau.mynoteappcompose.feature_note.domain.repository.NoteRepository
-import abika.sinau.mynoteappcompose.feature_note.domain.use_case.NoteUseCase
+import abika.sinau.mynoteappcompose.feature_note.domain.use_case.*
 import android.app.Application
 import androidx.room.Room
 import dagger.Module
@@ -37,11 +37,14 @@ object AppModule {
         return NoteRepositoryImpl(db.noteDao)
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideNoteUseCases(repository: NoteRepository) : NoteUseCase {
-//        return NoteUseCase(
-//            getNote =
-//        )
-//    }
+    @Provides
+    @Singleton
+    fun provideNoteUseCases(repository: NoteRepository): NoteUseCase {
+        return NoteUseCase(
+            getNote = GetNote(repository),
+            deleteNote = DeleteNote(repository),
+            addNote = AddNote(repository),
+            getNotes = GetNotes(repository)
+        )
+    }
 }
